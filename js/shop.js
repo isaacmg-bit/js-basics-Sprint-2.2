@@ -2,7 +2,7 @@
 const products = [
     {
         id: 1,
-        name: 'cooking oil',
+        name: 'Cooking oil',
         price: 10.5,
         type: 'grocery',
         offer: {
@@ -94,15 +94,16 @@ const buy = (id) => {
         if (foundProduct.id === item.id ) {
             item.quantity += 1;
             foundInCart = true;
-            console.log('Product already in cart: incrementing quantity')
+            console.log(`${foundProduct.name} already in cart: incrementing quantity`)
             break;
         }
     }
 
     if (!foundInCart) {
         cart.push({...foundProduct, quantity: 1});
-        console.log('Product added to cart')
+        console.log(`${foundProduct.name} added to cart`);
     }
+    console.log(cart);
 }
 
 // Exercise 2
@@ -114,6 +115,12 @@ const cleanCart = () =>  {
 // Exercise 3
 const calculateTotal = () =>  {
     // Calculate total price of the cart using the "cartList" array
+    let total = 0;
+    cart.forEach(item => {
+        total += item.price * item.quantity;
+        console.log(`Total: ${total}`);
+    });
+    return total;
 }
 
 // Exercise 4
