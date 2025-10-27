@@ -83,6 +83,7 @@ const buy = (id) => {
     for (const product of products) {
         if (product.id === id) { 
             foundProduct = product;
+            console.log('Product in stock')
             break;
         }
     }
@@ -93,18 +94,21 @@ const buy = (id) => {
         if (foundProduct.id === item.id ) {
             item.quantity += 1;
             foundInCart = true;
+            console.log('Product already in cart: incrementing quantity')
             break;
         }
     }
 
     if (!foundInCart) {
         cart.push({...foundProduct, quantity: 1});
+        console.log('Product added to cart')
     }
 }
 
 // Exercise 2
 const cleanCart = () =>  {
-
+    cart.length = 0;
+    console.log('Cart emptied');
 }
 
 // Exercise 3
