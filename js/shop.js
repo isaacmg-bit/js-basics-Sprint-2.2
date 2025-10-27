@@ -72,7 +72,7 @@ const products = [
 // Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
 const cart = [];
 
-const total = 0;
+let total = 0;
 
 // Exercise 1
 const buy = (id) => {
@@ -104,19 +104,22 @@ const buy = (id) => {
         console.log(`${foundProduct.name} added to cart`);
     }
     console.log(cart);
+
+    calculateTotal();
+    applyPromotionsCart();
+    printCart();
 }
 
 // Exercise 2
 const cleanCart = () =>  {
     cart.length = 0;
     console.log('Cart emptied');
+    printCart();
 }
 
 // Exercise 3
 const calculateTotal = () =>  {
     // Calculate total price of the cart using the "cartList" array
-    let total = 0;
-
     cart.forEach(item => {
         total += item.price * item.quantity;
         console.log(`Total: ${total}`);
@@ -133,11 +136,13 @@ const applyPromotionsCart = () =>  {
             const subTotalWithoutDiscount = (item.price * item.quantity);
             const subTotalWithDiscount = subTotalWithoutDiscount - (subTotalWithoutDiscount * 0.2);
             item.subtotalWithDiscount = subTotalWithDiscount;
+            console.log(`Promotion applied: 20% discount on ${item.name} if three or more units added to cart`)
         }
         if (item.id === 3  && item.quantity >= 10) {
             const subTotalWithoutDiscount = (item.price * item.quantity);
             const subTotalWithDiscount = subTotalWithoutDiscount - (subTotalWithoutDiscount * 0.3);
             item.subtotalWithDiscount = subTotalWithDiscount;
+            console.log(`Promotion applied: 30% discount on ${item.name} if three or more units added to cart`)
         }
     }
 }
@@ -145,6 +150,25 @@ const applyPromotionsCart = () =>  {
 // Exercise 5
 const printCart = () => {
     // Fill the shopping cart modal manipulating the shopping cart dom
+    let cartList = document.getElementById('cart_list');
+    cartList.innerHTML = '';
+
+    for (const item of cart) {
+        const tr = document.createElement('tr');
+        const itemSubTotal = (item.price * item.quantity);
+        tr.innerHTML = `
+        <td>${item.name}</td>
+        <td>${item.price.toFixed(2)}</td>
+        <td>${item.quantity}</td>
+        <td>${itemSubTotal.toFixed(2)}</td>
+        <td>${item.subtotalWithDiscount !== undefined ? item.subtotalWithDiscount.toFixed(2) : 'No discount applied'}</td>
+        `;
+        
+        cartList.appendChild(tr);
+
+        document.getElementById('total_price').textContent = total.toFixed(2) ;
+        console.log(total)
+    }
 }
 
 
