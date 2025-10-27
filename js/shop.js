@@ -116,6 +116,7 @@ const cleanCart = () =>  {
 const calculateTotal = () =>  {
     // Calculate total price of the cart using the "cartList" array
     let total = 0;
+
     cart.forEach(item => {
         total += item.price * item.quantity;
         console.log(`Total: ${total}`);
@@ -126,6 +127,19 @@ const calculateTotal = () =>  {
 // Exercise 4
 const applyPromotionsCart = () =>  {
     // Apply promotions to each item in the array "cart"
+    
+    for (const item of cart) {
+        if (item.id === 1  && item.quantity >= 3) {
+            const subTotalWithoutDiscount = (item.price * item.quantity);
+            const subTotalWithDiscount = subTotalWithoutDiscount - (subTotalWithoutDiscount * 0.2);
+            item.subtotalWithDiscount = subTotalWithDiscount;
+        }
+        if (item.id === 3  && item.quantity >= 10) {
+            const subTotalWithoutDiscount = (item.price * item.quantity);
+            const subTotalWithDiscount = subTotalWithoutDiscount - (subTotalWithoutDiscount * 0.3);
+            item.subtotalWithDiscount = subTotalWithDiscount;
+        }
+    }
 }
 
 // Exercise 5
