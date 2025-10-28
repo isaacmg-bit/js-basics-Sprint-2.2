@@ -105,27 +105,36 @@ const buy = (id) => {
     }
     console.log(cart);
 
-    calculateTotal();
     applyPromotionsCart();
+    calculateTotal();
     printCart();
 }
 
 // Exercise 2
 const cleanCart = () =>  {
     cart.length = 0;
+    total = 0;
     console.log('Cart emptied');
     printCart();
 }
 
 // Exercise 3
-const calculateTotal = () =>  {
-    // Calculate total price of the cart using the "cartList" array
+const calculateTotal = () => {
+    total = 0;
+
     cart.forEach(item => {
-        total += item.price * item.quantity;
-        console.log(`Total: ${total}`);
+        const itemSubTotal = item.price * item.quantity;
+        if (item.id === 1 && item.quantity >= 3 || item.id === 3 && item.quantity >= 10) {
+            total += item.subtotalWithDiscount ?? itemSubTotal;
+        } else {
+            total += itemSubTotal;
+        }
     });
-    return total;
-}
+
+  console.log(`Total: ${total.toFixed(2)}`);
+  return total;
+};
+
 
 // Exercise 4
 const applyPromotionsCart = () =>  {
@@ -149,27 +158,35 @@ const applyPromotionsCart = () =>  {
 
 // Exercise 5
 const printCart = () => {
-    // Fill the shopping cart modal manipulating the shopping cart dom
-    let cartList = document.getElementById('cart_list');
-    cartList.innerHTML = '';
+  const cartList = document.getElementById('cart_list');
+  cartList.innerHTML = '';
 
-    for (const item of cart) {
-        const tr = document.createElement('tr');
-        const itemSubTotal = (item.price * item.quantity);
-        tr.innerHTML = `
+  for (const item of cart) {
+    const tr = document.createElement('tr');
+    const itemSubTotal = item.price * item.quantity;
+
+    if (item.id === 1 && item.quantity >= 3 || item.id === 3 && item.quantity >= 10) {
+      tr.innerHTML = `
         <td>${item.name}</td>
         <td>${item.price.toFixed(2)}</td>
         <td>${item.quantity}</td>
         <td>${itemSubTotal.toFixed(2)}</td>
-        <td>${item.subtotalWithDiscount !== undefined ? item.subtotalWithDiscount.toFixed(2) : 'No discount applied'}</td>
-        `;
-        
-        cartList.appendChild(tr);
-
-        document.getElementById('total_price').textContent = total.toFixed(2) ;
-        console.log(total)
+        <td>${item.subtotalWithDiscount?.toFixed(2) ?? itemSubTotal.toFixed(2)}</td>
+      `;
+    } else {
+      tr.innerHTML = `
+        <td>${item.name}</td>
+        <td>${item.price.toFixed(2)}</td>
+        <td>${item.quantity}</td>
+        <td>${itemSubTotal.toFixed(2)}</td>
+      `;
     }
-}
+
+    cartList.appendChild(tr);
+  }
+
+  document.getElementById('total_price').textContent = total.toFixed(2);
+};
 
 
 // ** Nivell II **
