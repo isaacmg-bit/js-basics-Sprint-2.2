@@ -1,28 +1,85 @@
-
 // Exercise 6
+// añadir validacion 3 en lo regex
+
 const validate = () => {
-	let error = 0;
-	// Get the input fields
+	const inputs = ["fName", "fEmail", "fAddress", "fLastN", "fPassword", "fPhone"];
+
+	function inputGreen(element) { 
+  		element.style.borderWidth = "3px";
+  		element.style.borderColor = "green";
+	}
+
+	function inputRed(element) { 
+  		element.style.borderWidth = "3px";
+  		element.style.borderColor = "red";
+	}
+
 	const fName = document.getElementById("fName");
 	const fEmail = document.getElementById("fEmail");
+	const fLastN = document.getElementById("fLastN");
+	const fPassword = document.getElementById("fPassword");
+	const fPhone = document.getElementById("fPhone");
+	const fAddress = document.getElementById("fAddress");
 
-	// Get the error elements
-	const errorName = document.getElementById("errorName");
-	const errorEmail = document.getElementById("errorEmail");  
+	let isValidInputs = true;
+	let isValidName = false;
+	let isValidAddress = false;
+  	let isValidEmail = false;
+  	let isValidLastN = false;
+  	let isValidPassword = false;
+  	let isValidPhone = false;
+
+	// Val. campos vacíos
+	inputs.forEach(id => {
+		const inputElement = document.getElementById(id);
+  		if (inputElement.value.trim() === "") {
+    		isValidInputs = false;
+			inputRed(inputElement); 
+		} 
+	});
+
+	// Val. nombre solo letras
+	if (/^[A-Za-z]+$/.test(fName.value.trim())) {
+		inputGreen(fName);
+  		isValidName = true;
+	} else {
+		inputRed(fName);
+	};
+
+	if (/^[A-Za-z]+$/.test(fLastN.value.trim())) {
+		inputGreen(fLastN);
+  		isValidLastN = true;
+	} else {
+		inputRed(fLastN);
+	};
+
+	if (/^[A-Za-z0-9]+$/.test(fPassword.value)) {
+		inputGreen(fPassword);
+		isValidPassword = true;
+	} else {
+		inputRed(fPassword);
+	};
 	
-	// Validate fields entered by the user: name, phone, password, and email
-	if(fName.value.trim() == ""){
-		error++;
-	}
+	if (/^[A-Za-z0-9]+$/.test(fAddress.value)) {
+		inputGreen(fAddress);
+		isValidAddress = true;
+	} else {
+		inputRed(fAddress);
+	};
+	
+	// if(fEmail.value == ""){
+	// 	error++;
+	// }
 
-	if(fEmail.value == ""){
-		error++;
-	}
+	// if(fPhone.value == ""){
+	// 	error++;
+	// }
+	
+	// Validación submit
 	 
-	if(error>0){
-		alert("Please fill in all required fields.");
-	}else{
+	if(isValidInputs && isValidName && isValidLastN && isValidEmail && isValidPassword && isValidPhone && isValidAddress){
 		alert("Form submitted successfully");
+	}else {
+		alert("Please fill in all required fields.");
 	}
-
 }
