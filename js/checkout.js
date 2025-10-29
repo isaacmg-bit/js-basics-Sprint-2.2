@@ -1,17 +1,24 @@
 // Exercise 6
-// añadir validacion 3 en lo regex
 
-const validate = () => {
+const validate = (event) => {
+	event.preventDefault();
+
 	const inputs = ["fName", "fEmail", "fAddress", "fLastN", "fPassword", "fPhone"];
 
-	function inputGreen(element) { 
+	function inputGreen(element, errorElement) { 
   		element.style.borderWidth = "3px";
   		element.style.borderColor = "green";
+		element.classList.remove("is-invalid");
+		element.classList.add("is-valid");
+		errorElement.style.display = "none";
 	}
 
-	function inputRed(element) { 
+	function inputRed(element, errorElement) { 
   		element.style.borderWidth = "3px";
   		element.style.borderColor = "red";
+		element.classList.remove("is-valid");
+		element.classList.add("is-invalid");
+		errorElement.style.display = "block";
 	}
 
 	const fName = document.getElementById("fName");
@@ -21,7 +28,13 @@ const validate = () => {
 	const fPhone = document.getElementById("fPhone");
 	const fAddress = document.getElementById("fAddress");
 
-	let isValidInputs = true;
+	const errorName = document.getElementById("errorName");
+	const errorEmail = document.getElementById("errorEmail");
+	const errorLastN = document.getElementById("errorLastN");
+	const errorPassword = document.getElementById("errorPassword");
+	const errorPhone = document.getElementById("errorPhone");
+	const errorAddress = document.getElementById("errorAddress");
+
 	let isValidName = false;
 	let isValidAddress = false;
   	let isValidEmail = false;
@@ -29,57 +42,58 @@ const validate = () => {
   	let isValidPassword = false;
   	let isValidPhone = false;
 
-	// Val. campos vacíos
-	inputs.forEach(id => {
-		const inputElement = document.getElementById(id);
-  		if (inputElement.value.trim() === "") {
-    		isValidInputs = false;
-			inputRed(inputElement); 
-		} 
-	});
-
-	// Val. nombre solo letras
-	if (/^[A-Za-z]+$/.test(fName.value.trim())) {
-		inputGreen(fName);
+	if (/^[A-Za-z]{3,}$/.test(fName.value.trim())) {
+		inputGreen(fName, errorName);
   		isValidName = true;
 	} else {
-		inputRed(fName);
+		inputRed(fName, errorName);
+		isValidName = false;
 	};
 
-	if (/^[A-Za-z]+$/.test(fLastN.value.trim())) {
-		inputGreen(fLastN);
+	if (/^[A-Za-z]{3,}$/.test(fLastN.value.trim())) {
+		inputGreen(fLastN, errorLastN);
   		isValidLastN = true;
 	} else {
-		inputRed(fLastN);
+		inputRed(fLastN, errorLastN);
+		isValidLastN = false;
 	};
 
-	if (/^[A-Za-z0-9]+$/.test(fPassword.value)) {
-		inputGreen(fPassword);
+	if (/^[A-Za-z0-9]{4,8}$/.test(fPassword.value)) {
+		inputGreen(fPassword, errorPassword);
 		isValidPassword = true;
 	} else {
-		inputRed(fPassword);
+		inputRed(fPassword, errorPassword);
+		isValidPassword = false;
 	};
 	
-	if (/^[A-Za-z0-9]+$/.test(fAddress.value)) {
-		inputGreen(fAddress);
+	if (/^[A-Za-z0-9\s]{3,}$/.test(fAddress.value)) {
+		inputGreen(fAddress, errorAddress);
 		isValidAddress = true;
 	} else {
-		inputRed(fAddress);
+		inputRed(fAddress, errorAddress);
+		isValidAddress = false;
 	};
 	
-	// if(fEmail.value == ""){
-	// 	error++;
-	// }
+	if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(fEmail.value)) {
+		inputGreen(fEmail, errorEmail);
+		isValidEmail = true;
+	} else {
+		inputRed(fEmail, errorEmail);
+		isValidEmail = false;
+	};
 
-	// if(fPhone.value == ""){
-	// 	error++;
-	// }
-	
-	// Validación submit
-	 
-	if(isValidInputs && isValidName && isValidLastN && isValidEmail && isValidPassword && isValidPhone && isValidAddress){
+	if (/^[0-9]{9,}$/.test(fPhone.value)) {
+		inputGreen(fPhone, errorPhone);
+		isValidPhone = true;
+	} else {
+		inputRed(fPhone, errorPhone);
+		isValidPhone = false;
+	};
+
+	if (isValidName && isValidLastN && isValidEmail && isValidPassword && isValidPhone && isValidAddress){
 		alert("Form submitted successfully");
-	}else {
+	} else {
 		alert("Please fill in all required fields.");
 	}
 }
+	 
