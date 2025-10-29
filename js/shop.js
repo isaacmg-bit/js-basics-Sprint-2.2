@@ -105,9 +105,11 @@ const buy = (id) => {
     }
     console.log(cart);
 
+    
     applyPromotionsCart();
     calculateTotal();
     printCart();
+    countCart();
 }
 
 // Exercise 2
@@ -116,6 +118,7 @@ const cleanCart = () =>  {
     total = 0;
     console.log('Cart emptied');
     printCart();
+    countCart();
 }
 
 // Exercise 3
@@ -172,6 +175,7 @@ const printCart = () => {
         <td>${item.quantity}</td>
         <td>${itemSubTotal.toFixed(2)}</td>
         <td>${item.subtotalWithDiscount?.toFixed(2) ?? itemSubTotal.toFixed(2)}</td>
+        <td><button class="btn btn-sm btn-danger btn-remove" data-id="${item.id}">Remove</button></td>
       `;
     } else {
       tr.innerHTML = `
@@ -179,6 +183,8 @@ const printCart = () => {
         <td>${item.price.toFixed(2)}</td>
         <td>${item.quantity}</td>
         <td>${itemSubTotal.toFixed(2)}</td>
+        <td></td>
+        <td><button class="btn btn-sm btn-danger btn-remove" data-id="${item.id}">Remove</button></td>
       `;
     }
 
@@ -194,6 +200,19 @@ const printCart = () => {
 // Exercise 7
 const removeFromCart = (id) => {
 
+    for (let i = 0; i < cart.length; i++) {
+        if (cart[i].id === id) {
+            if (cart[i].quantity > 1) {
+                cart[i].quantity -= 1;
+                console.log(`One unit of ${cart[i].name} removed from cart`);
+            } else if (cart[i].quantity === 1) {
+                console.log(`${cart[i].name} removed from cart`);
+                cart.splice(i, 1);
+            }
+            break;
+        }
+    }
+    return cart;
 }
 
 const open_modal = () =>  {
@@ -219,3 +238,17 @@ const clearCartButton = document.querySelector('clean-cart');
 clearCartButton.addEventListener('click', () => {
   cleanCart();
 });
+
+
+    //Count product
+    function countCart() {
+    
+        const countProduct = document.getElementById("count_product");
+        let totalItems = 0;
+    
+        for (const item of cart) {
+            totalItems += item.quantity;
+        }
+        countProduct.textContent = totalItems;
+    }
+
