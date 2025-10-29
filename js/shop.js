@@ -216,8 +216,6 @@ const removeFromCart = (id) => {
     return cart;
 }
 
-// DOM
-
 // Add to cart buttons
 const addToCartButtons = document.querySelectorAll('.add-to-cart');
 
