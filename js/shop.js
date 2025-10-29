@@ -192,6 +192,7 @@ const printCart = () => {
   }
 
   document.getElementById('total_price').textContent = total.toFixed(2);
+  removeButton();
 };
 
 
@@ -215,10 +216,6 @@ const removeFromCart = (id) => {
     return cart;
 }
 
-const open_modal = () =>  {
-    printCart();
-}
-
 // DOM
 
 // Add to cart buttons
@@ -233,22 +230,37 @@ addToCartButtons.forEach(button => {
 
 // Clear cart button
 
-const clearCartButton = document.querySelector('clean-cart');
+const clearCartButton = document.querySelector('#clean-cart');
 
 clearCartButton.addEventListener('click', () => {
   cleanCart();
 });
 
 
-    //Count product
-    function countCart() {
+//Count product
+function countCart() {
     
-        const countProduct = document.getElementById("count_product");
-        let totalItems = 0;
+    const countProduct = document.getElementById("count_product");
+    let totalItems = 0;
     
-        for (const item of cart) {
-            totalItems += item.quantity;
-        }
-        countProduct.textContent = totalItems;
+    for (const item of cart) {
+        totalItems += item.quantity;
     }
+    countProduct.textContent = totalItems;
+}
 
+//Remove buttons
+function removeButton() { 
+    const removeButtons = document.querySelectorAll('.btn-remove');
+
+    removeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const productId = parseInt(button.dataset.id);
+            removeFromCart(productId);
+            applyPromotionsCart();
+            calculateTotal();
+            printCart();
+            countCart();
+        });
+    });
+}
