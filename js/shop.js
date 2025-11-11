@@ -186,8 +186,14 @@ const printCart = () => {
         <td>${item.price.toFixed(2)}</td>
         <td>${item.quantity}</td>
         <td>${itemSubTotal.toFixed(2)}</td>
-        <td>${item.subtotalWithDiscount ? item.subtotalWithDiscount.toFixed(2) : itemSubTotal.toFixed(2)}</td>
-        <td><button class="btn btn-sm btn-danger btn-remove" data-id="${item.id}">Remove</button></td>
+        <td>${
+          item.subtotalWithDiscount
+            ? item.subtotalWithDiscount.toFixed(2)
+            : itemSubTotal.toFixed(2)
+        }</td>
+        <td><button class="btn btn-sm btn-danger btn-remove" data-id="${
+          item.id
+        }">Remove</button></td>
       `;
     } else {
       tr.innerHTML = `
